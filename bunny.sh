@@ -5,11 +5,12 @@ col=`tput cols`
 pos1X=0
 pos1Y=0
 cc="\e[1;31m"
+green="\e[38;5;47m"
+orang="\e[48;5;208m"
 null="\e[0m"
 count=0
 tempX=0
 tempY=0
-
 
 trap "{ tput cnorm; echo \"YOU CANNOT KILL A BUNNY !\"; ~/.config/config_bashrc ; exit 0; }" SIGINT SIGTERM 
 
@@ -25,6 +26,17 @@ fun_erase_bunny()
     tput cup $((${POSY[$cur]}+2)) ${POSX[$cur]}
     tput dch 5
     tput ich 5
+}
+
+# PRINT CARROT
+fun_print_carrot()
+{
+    tput sc
+    tput cup $2 $1
+    echo -en "${green}|"
+    tput cup $(($2+1)) $1
+    echo -en "${orang} $null"
+    tput rc
 }
 
 # UP
@@ -104,6 +116,7 @@ fun_get_new_destination()
 {
     NEXTX[$1]=$(($RANDOM%$(($col-6))))
     NEXTY[$1]=$(($RANDOM%$((lin-4))))
+    fun_print_carrot ${NEXTX[$1]} ${NEXTY[$1]}
 }
 
 cur=0;
