@@ -150,7 +150,7 @@ do
         sleep 0.05
     fi
 
-    if [ $count -ge 100 ] && [ [ $max -lt 6 ] || [ $crazy_mode -eq 1 ] ]
+    if [ $count -ge 100 ] && [ $max -lt 6 ] || [ $crazy_mode -eq 1 ]
     then
         POSX[$max]=60
         POSY[$max]=2
