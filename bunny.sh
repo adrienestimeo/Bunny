@@ -148,9 +148,12 @@ do
     if [ $crazy_mode -ne 1 ]
     then
         sleep 0.05
+    else
+        sleep 0.01
     fi
 
-    if [ $count -ge 100 ] && [ $max -lt 6 ] || [ $crazy_mode -eq 1 ]
+    echo $crazy_mode
+    if [ $count -ge 100 ] && ( [ $max -lt 6 ] || [ $crazy_mode -eq 1 ] )
     then
         POSX[$max]=60
         POSY[$max]=2
