@@ -152,7 +152,6 @@ do
         sleep 0.01
     fi
 
-    echo $crazy_mode
     if [ $count -ge 100 ] && ( [ $max -lt 6 ] || [ $crazy_mode -eq 1 ] )
     then
         POSX[$max]=60
