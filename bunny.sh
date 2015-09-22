@@ -7,12 +7,25 @@ pos1Y=0
 cc="\e[1;31m"
 green="\e[38;5;47m"
 orang="\e[48;5;208m"
+red="\e[38;5;15m"
 null="\e[0m"
 count=0
 tempX=0
 tempY=0
+crazy_mode=0
 
-trap "{ tput cnorm; echo \"YOU CANNOT KILL A BUNNY !\"; ~/.config/config_bashrc ; exit 0; }" SIGINT SIGTERM 
+if [ $# -ne 0 ] && [ $1 -eq 1 ]
+then
+    crazy_mode=1
+    red="\e[38;5;196m"
+fi
+
+if [ $# -ne 0 ] && [ $1 -eq 2 ]
+then
+    exit 0
+fi
+
+trap "{ tput cnorm; echo \"YOU CANNOT KILL A BUNNY !\"; ~/.config/config_bashrc 1; clear; exit 0; }" SIGINT SIGTERM 
 
 # ERASE LAST BUNNY
 fun_erase_bunny()
@@ -39,6 +52,23 @@ fun_print_carrot()
     tput rc
 }
 
+fun_print_bunny()
+{
+    echo -en "${red}(\ /)${null}"
+    tput cup $((${POSY[$cur]}+1)) ${POSX[$cur]}
+    echo -en "${red}(${COLOR[$cur]}O${red}.${COLOR[$cur]}o${red})${null}"
+    tput cup $((${POSY[$cur]}+2)) ${POSX[$cur]}
+    echo -en "${red}(> <)${null}"
+}
+
+fun_print_big_bunny()
+{
+    echo -n "^___^"
+    echo -n "{0_o}"
+    echo -n "/)__)"
+    echo -n " \" \" "
+}
+
 # UP
 fun_up_bunny()
 {
@@ -46,11 +76,7 @@ fun_up_bunny()
     fun_erase_bunny
     POSY[$cur]=$((${POSY[$cur]}-1))
     tput cup ${POSY[$cur]} ${POSX[$cur]}
-    echo -n "(\ /)"
-    tput cup $((${POSY[$cur]}+1)) ${POSX[$cur]}
-    echo -en "(${COLOR[$cur]}O${null}.${COLOR[$cur]}o${null})"
-    tput cup $((${POSY[$cur]}+2)) ${POSX[$cur]}
-    echo -n "(> <)"
+    fun_print_bunny
     tput rc
 }
 
@@ -61,11 +87,7 @@ fun_down_bunny()
     fun_erase_bunny
     POSY[$cur]=$((${POSY[$cur]}+1))
     tput cup ${POSY[$cur]} ${POSX[$cur]}
-    echo -n "(\ /)"
-    tput cup $((${POSY[$cur]}+1)) ${POSX[$cur]}
-    echo -en "(${COLOR[$cur]}O${null}.${COLOR[$cur]}o${null})"
-    tput cup $((${POSY[$cur]}+2)) ${POSX[$cur]}
-    echo -n "(> <)"
+    fun_print_bunny
     tput rc
 }
 
@@ -76,11 +98,7 @@ fun_left_bunny()
     fun_erase_bunny
     POSX[$cur]=$((${POSX[$cur]}-1))
     tput cup ${POSY[$cur]} ${POSX[$cur]}
-    echo -n "(\ /)"
-    tput cup $((${POSY[$cur]}+1)) ${POSX[$cur]}
-    echo -en "(${COLOR[$cur]}O${null}.${COLOR[$cur]}o${null})"
-    tput cup $((${POSY[$cur]}+2)) ${POSX[$cur]}
-    echo -n "(> <)"
+    fun_print_bunny
     tput rc
 }
 
@@ -91,11 +109,7 @@ fun_right_bunny()
     fun_erase_bunny
     POSX[$cur]=$((${POSX[$cur]}+1))
     tput cup ${POSY[$cur]} ${POSX[$cur]}
-    echo -n "(\ /)"
-    tput cup $((${POSY[$cur]}+1)) ${POSX[$cur]}
-    echo -en "(${COLOR[$cur]}O${null}.${COLOR[$cur]}o${null})"
-    tput cup $((${POSY[$cur]}+2)) ${POSX[$cur]}
-    echo -n "(> <)"
+    fun_print_bunny
     tput rc
 }
 
@@ -131,7 +145,10 @@ COLOR[0]="\e[38;5;"$(fun_random_256)"m"
 
 while true;
 do
-    sleep 0.05
+    if [ $crazy_mode -ne 1 ]
+    then
+        sleep 0.05
+    fi
 
     if [ $count -ge 100 ] && [ $max -lt 6 ]
     then
