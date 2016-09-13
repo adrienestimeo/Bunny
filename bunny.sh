@@ -1,5 +1,7 @@
 #!/bin/bash
 
+shopt -s xpg_echo
+
 lin=`tput lines`
 col=`tput cols`
 pos1X=0
