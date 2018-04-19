@@ -27,7 +27,8 @@ then
     exit 0
 fi
 
-trap "{ tput cnorm; echo \"YOU CANNOT KILL A BUNNY !\"; ~/.config/config_bashrc 1; clear; exit 0; }" SIGINT SIGTERM 
+#trap "{ tput cnorm; echo \"YOU CANNOT KILL A BUNNY !\"; ~/.config/config_bashrc 1; clear; exit 0; }" SIGINT SIGTERM
+trap "{ tput cnorm; echo \"YOU CANNOT KILL A BUNNY !\"; ./$0 1; clear; exit 0; }" SIGINT SIGTERM 
 
 # ERASE LAST BUNNY
 fun_erase_bunny()
